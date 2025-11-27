@@ -26,7 +26,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # CodeQL va analyser les langages PHP (via composer) et JavaScript (JS/HTML/CSS)
+        # CodeQL va analyser les langages PHP et JavaScript
         language: [ 'javascript', 'php' ]
 
     steps:
@@ -37,7 +37,6 @@ jobs:
         fetch-depth: 0
 
     # 1. Initialiser l'Action CodeQL
-    # Télécharge le CLI CodeQL et configure les bases de données pour l'analyse
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
@@ -45,18 +44,18 @@ jobs:
         # Utiliser les 'suites' de requêtes par défaut de sécurité
         queries: security-and-quality
 
-    # 2. Construction des Dépendances (crucial pour l'analyse)
+    # 2. Construction des Dépendances (MAINTENANT FACULTATIVE AVEC || exit 0)
     - if: ${{ matrix.language == 'php' }}
       name: Install PHP dependencies (Composer)
       run: |
-        # Ceci installe les dépendances PHP si vous avez un fichier composer.json
-        composer install --no-dev --prefer-dist || echo "Composer non utilisé, on continue"
+        # Installe les dépendances PHP. Si composer.json n'existe pas ou l'installation échoue, continue (exit 0)
+        composer install --no-dev --prefer-dist || exit 0
         
     - if: ${{ matrix.language == 'javascript' }}
       name: Install JS dependencies (npm/yarn)
       run: |
-        # Ceci installe les dépendances JS si vous avez un fichier package.json
-        npm install || echo "npm non utilisé, on continue"
+        # Installe les dépendances JS. Si package.json n'existe pas ou l'installation échoue, continue (exit 0)
+        npm install || exit 0
 
     # 3. Exécuter l'Analyse CodeQL
     - name: Perform CodeQL Analysis
