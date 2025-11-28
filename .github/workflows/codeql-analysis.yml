@@ -25,7 +25,7 @@ jobs:
         fetch-depth: 0
 
     # Étape critique : Créer le fichier de configuration à la volée.
-    # Ceci remplace la nécessité de créer le fichier codeql-config.yml manuellement.
+    # Ceci résout le problème "CodeQL detected code written in GitHub Actions, but not any written in JavaScript/TypeScript."
     - name: Create CodeQL Config File for JS/HTML
       run: |
         mkdir -p .github/codeql
