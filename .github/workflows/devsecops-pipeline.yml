@@ -1,4 +1,4 @@
-# Nom du workflow qui apparaîtra dans l'onglet "Actions" de GitHub
+# Nom du workflow qui apparaîtra dans l'onglet "Actions" de GitHub testestestestestesetsestestestetsestesestesteste
 name: "DevSecOps - Pipeline Complet et Final"
 
 # --------------------------
@@ -25,7 +25,7 @@ jobs:
   sonar_scan:
     name: SonarCube Scan (SAST)
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -68,7 +68,7 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
+        
       # ÉTAPE 1: DÉPLOIEMENT DE L'APPLICATION
       - name: Setup and Run Application (PHP Simple)
         # Utilise le serveur web intégré de PHP pour lancer l'application (Scénario PHP Simple)
@@ -92,5 +92,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ZAP-DAST-Report
-          path: zap_report.html
           path: zap_report.html
